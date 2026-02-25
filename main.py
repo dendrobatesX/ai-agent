@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 from google import genai
 import argparse
 from google.genai import types
+from prompts import system_prompt
 
 
 parser = argparse.ArgumentParser(description="Chatbot")
@@ -19,7 +20,12 @@ if api_key == None:
 
 client = genai.Client(api_key=api_key)
 messages = [types.Content(role="user", parts=[types.Part(text=args.user_prompt)])]
-response=client.models.generate_content(model='gemini-2.5-flash', contents=messages)
+response=client.models.generate_content(
+    model='gemini-2.5-flash', 
+    contents=messages,
+    config=types.GenerateContentConfig(system_instruction=system_prompt),
+    )
+    
 if response.usage_metadata == None:
     raise RuntimeError("brak odpowiedzi -- brak klucza")
 elif args.verbose == True:
