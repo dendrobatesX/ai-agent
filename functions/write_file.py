@@ -1,4 +1,5 @@
 import os
+from google.genai import types
 def write_file(working_directory, file_path, content):
     try:
         path=os.path.abspath(working_directory)
@@ -19,3 +20,23 @@ def write_file(working_directory, file_path, content):
         
     except Exception as e:
         return f"Error: {str(e)}"
+
+schema_write_file = types.FunctionDeclaration(
+    name="write_file",
+    description="Write to file",
+    parameters=types.Schema(
+        type=types.Type.OBJECT,
+        properties={
+             "file_path": types.Schema(
+                type=types.Type.STRING,
+                description="The relative path to the file inside the working directory",
+            ),
+            "content": types.Schema(
+                type=types.Type.ARRAY,
+                items=types.Schema(type=types.Type.STRING),
+                description="Content to write to file",
+            ),
+        },
+        required=["file_path", "content"],
+    ),
+)
