@@ -32,8 +32,7 @@ schema_write_file = types.FunctionDeclaration(
                 description="The relative path to the file inside the working directory",
             ),
             "content": types.Schema(
-                type=types.Type.ARRAY,
-                items=types.Schema(type=types.Type.STRING),
+                type=types.Type.STRING,                
                 description="Content to write to file",
             ),
         },
